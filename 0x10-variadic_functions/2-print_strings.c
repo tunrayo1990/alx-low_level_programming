@@ -3,36 +3,36 @@
 #include <stdarg.h>
 
 /**
- * print_strings - printte numbers
- * @n: number of argument to sum
- * Ret all argument
- * @separator: item to use ot separaurn: sum of all argument
+ * print_strings - Prints strings, followed by a new line.
+ * @separator: The string to be printed between strings.
+ * @n: The number of strings passed to the function.
+ * @...: A variable number of strings to be printed.
+ *
+ * Description: If separator is NULL, it is not printed.
+ *              If one of the strings if NULL, (nil) is printed instead.
  */
-
-
 void print_strings(const char *separator, const unsigned int n, ...)
 {
-	unsigned int i = 0;
-	char *c;
+	va_list strings;
+	char *str;
+	unsigned int index;
 
+	va_start(strings, n);
 
-	va_list ap;
-
-	va_start(ap, n);
-
-	if (!separator)
-		return;
-
-	for (i = 0; i < n; i++)
+	for (index = 0; index < n; index++)
 	{
-		c =  va_arg(ap,  char*);
-		printf("%s%s", c == NULL ? "(nil)" : c, i != (n - 1) ? separator : "");
+		str = va_arg(strings, char *);
+
+		if (str == NULL)
+			printf("(nil)");
+		else
+			printf("%s", str);
+
+		if (index != (n - 1) && separator != NULL)
+			printf("%s", separator);
 	}
 
+	printf("\n");
 
-
-	va_end(ap);
-	putchar('\n');
-
-
+	va_end(strings);
 }
